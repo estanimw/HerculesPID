@@ -92,13 +92,23 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav nav-success nav-pills mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" id="profile-tab-1" href="{{ route('welcome') }}" aria-controls="profile">
+                        <a class="nav-link" id="profile-tab-1" href="{{ route('clases') }}" aria-controls="profile">
                             <span class="nav-icon">
                                 <i class="fas fa-home"></i>
                             </span>
                             <span class="nav-text">Clases</span>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" id="modify" href="{{ route('modificar') }}" aria-controls="modify">
+                            <span class="nav-icon">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                            <span class="nav-text">Modificar</span>
+                        </a>
+                    </li>
+
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">

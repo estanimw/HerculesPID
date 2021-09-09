@@ -28,6 +28,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/welcome', [App\Http\Controllers\HomeController::class, 'welcome'])->name('welcome');
 Route::get('/landing', [App\Http\Controllers\HomeController::class, 'landing']);
 Route::get('/perfil', [App\Http\Controllers\HomeController::class, 'perfil'])->name('perfil');
+Route::get('/modificar', [App\Http\Controllers\HomeController::class, 'modificar'])->name('modificar');
 
 
 Auth::routes(['verify' => true]);
