@@ -38,6 +38,13 @@ class HomeController extends Controller
         return Evento::create([ 'title' => $request->title , 'day' => $request->daysOfWeek , 'start' => $request->startTime, 'end' => $request->endTime , 'color' => $randColor]);
     }
 
+    public function editarClase(Request $request)
+    {
+        // $randColor = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+        return $request;
+        return Evento::create([ 'title' => $request->title , 'day' => $request->daysOfWeek , 'start' => $request->startTime, 'end' => $request->endTime , 'color' => $randColor]);
+    }
+
     public function clasesCargadas()
     {
         $query = Evento::all();

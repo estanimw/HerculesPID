@@ -43,6 +43,7 @@ Auth::routes(['verify' => true]);
 Route::get('/clasesCargadas', [App\Http\Controllers\HomeController::class, 'clasesCargadas'])->name('clasesCargadas');
 Route::get('/clases', [App\Http\Controllers\HomeController::class, 'clases'])->name('clases');
 Route::post('/cargarClase', [App\Http\Controllers\HomeController::class, 'cargarClase'])->name('cargarClase');
+Route::post('/clase/editar', [App\Http\Controllers\HomeController::class, 'editarClase'])->name('editarClase');
 
 Route::get('/coverage', function () {
     return redirect('coverage/index.html');

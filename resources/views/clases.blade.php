@@ -446,6 +446,23 @@ jQuery(document).ready(function() {
                             element.find('.fc-list-item-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
                         }
                     }
+                },
+
+                eventClick: function(calEvent, jsEvent, view, start, end) {
+                    let event_id = calEvent.event._def.publicId;
+                    let event_title = calEvent.event._def.title;
+                    let startTime = calEvent.event._def.recurringDef.typeData.startTime.milliseconds;
+                    let endTime = calEvent.event._def.recurringDef.typeData.endTime.milliseconds;
+                    let dayOfWeek = calEvent.event._def.recurringDef.typeData.daysOfWeek;
+                    // console.log(calEvent);
+                    $('#event_id').val(event_id);
+                    $('#title').val(event_title);
+                    $('#dayOfWeek').val(dayOfWeek);
+                    // $('#appointment_id').val(calEvent.id);
+
+                    $('#start_time').val(moment(startTime+10800000).format('HH:mm'));
+                    $('#finish_time').val(moment(endTime+10800000).format('HH:mm'));
+                    $('#editModal').modal();
                 }
             });
             calendar.setOption('locale', 'es');
@@ -456,6 +473,26 @@ jQuery(document).ready(function() {
 
 jQuery(document).ready(function() {
     KTCalendarBasic.init();
+});
+
+$("#clase_update").click(function e() {
+    $.ajax({
+      url:"{{ route('editarClase') }}",
+      type:"POST",
+      data:{
+        "_token":"{{ csrf_token() }}",
+        "title": $('#title').value,
+        "startTime": $('#start_time').value,
+        "endTime": $('#finish_time').value,
+        "daysOfWeek": $('#dayOfWeek').value,
+      },
+      success:function(response){
+        console.log(response);
+        $('#editModal').close();
+      },
+      error: function(xhr, textStatus, error){
+      }
+    });
 });
     </script>
 
@@ -471,20 +508,24 @@ jQuery(document).ready(function() {
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <h4>Edit Appointment</h4>
+                    <h4>Edición de clase</h4>
 
-                    Start time:
+                    Hora de inicio:
                     <br />
                     <input type="text" class="form-control" name="start_time" id="start_time">
 
-                    End time:
+                    Hora de fin:
                     <br />
                     <input type="text" class="form-control" name="finish_time" id="finish_time">
+
+                    <input type="text" hidden="" class="form-control" name="event_id" id="event_id">
+                    <input type="text" hidden="" class="form-control" name="title" id="title">
+                    <input type="text" hidden="" class="form-control" name="title" id="dayOfWeek">
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <input type="button" class="btn btn-primary" id="appointment_update" value="Save">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" id="clase_update" value="Guardar">
                 </div>
             </div>
         </div>
