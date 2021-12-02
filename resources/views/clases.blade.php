@@ -27,6 +27,29 @@
         $('.borrable-clase').remove();
     };
 
+    function añadirDia2(){
+
+        var element = document.createElement("select");
+        element.id = "dayOfEvent3";
+        element.className = "custom-select";
+        $('#editModal').find('.modal-body').append(element);
+
+        //Create array of options to be added
+        var array = ["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"];
+        //Create and append the options
+        for (var i = 0; i < array.length; i++) {
+            var option = document.createElement("option");
+            option.value = i;
+            option.text = array[i];
+            if (i == 1) {
+                option.selected = true;
+            }
+            element.appendChild(option);
+        }
+        $('.input-group-btn2').remove();
+        $('.borrable-clase2').remove();
+    };
+
 </script>
 
 <script>
@@ -70,6 +93,7 @@
                                     var tEnd = $('#tEnd').val();
                                     var dayOfEvent = $('#dayOfEvent').val();
                                     var dayOfEvent2 = $('#dayOfEvent2').val();
+                                    var dayOfEvent3 = $('#dayOfEvent3').val();
                                     var recurso = $('#recurso').val();
 
                                     calendar.addEvent({
@@ -147,12 +171,53 @@
                                         });
 
                                     }
+                                                                   
+                                    if(typeof dayOfEvent3 != 'undefined'){
+
+                                        calendar.addEvent({
+                                            title: titleOfEvent,
+                                            startTime: tStart,
+                                            endTime: tEnd,
+                                            allDay: false,
+                                            daysOfWeek: [ dayOfEvent3 ],
+                                            className:"fc-event-solid-primary"
+                                        });
+
+                                        $.ajax({
+                                          url:"{{ route('cargarClase') }}",
+                                          type:"POST",
+                                          data:{
+                                            "_token":"{{ csrf_token() }}",
+                                            "title":titleOfEvent,
+                                            "startTime":tStart,
+                                            "endTime":tEnd,
+                                            "daysOfWeek":dayOfEvent3,
+                                          },
+                                          success:function(response){
+
+                                            $.ajax({
+                                                url:"{{ route('agregarClaseRecurso') }}",
+                                                type:"POST",
+                                                data:{
+                                                    "_token":"{{ csrf_token() }}",
+                                                    "recurso":recurso,
+                                                    "clase":response.id,
+                                                },
+                                            });
+
+                                          },
+                                          error: function(xhr, textStatus, error){
+                                          }
+                                        });
+
+                                    }
 
                                     $("#titleOfEvent").val('');
                                     $("#tStart").val('');
                                     $("#tEnd").val('');
                                     $("#dayOfEvent").val('');
                                     $('#dayOfEvent2').val('');
+                                    $('#dayOfEvent3').val('');
                                     $('#recurso').val('');
 
                                     $('#editModal').modal('hide');
@@ -171,7 +236,6 @@
                             if (element.hasClass('fc-day-grid-event')) {
                                 element.data('content', info.event.extendedProps.description);
                                 element.data('placement', 'top');
-                                // KTApp.initPopover(element);
                             } else if (element.hasClass('fc-time-grid-event')) {
                                 element.find('.fc-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
                             } else if (element.find('.fc-list-item-title').lenght !== 0) {
@@ -273,6 +337,10 @@
                         <button class="btn btn-success add-more" type="button" onclick="añadirDia()"><i class="fas fa-plus"></i> Añadir Dia</button>
                     </div>
                     <br class="borrable-clase">
+                    <div class="input-group-btn2">
+                        <button class="btn btn-success add-more" type="button" onclick="añadirDia2()"><i class="fas fa-plus"></i> Añadir Dia</button>
+                    </div>
+                    <br class="borrable-clase2">
                     <select class="custom-select" id="dayOfEvent">
                         <option value="1">Lunes</option>
                         <option value="2">Martes</option>
